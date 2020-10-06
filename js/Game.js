@@ -1,10 +1,10 @@
 class Game {
-  constructor(){
+  constructor(rank){
 
   }
 
   getState(){
-    var gameStateRef  = database.ref('gameState');
+    var gameStateRef = database.ref('gameState');
     gameStateRef.on("value",function(data){
        gameState = data.val();
     })
@@ -44,6 +44,7 @@ class Game {
     form.hide();
     
     Player.getPlayerInfo();
+    player.getRank();
     
     if(allPlayers !== undefined){
       background(rgb(198,135,103));
@@ -91,8 +92,10 @@ class Game {
       player.update();
     }
 
-    if(player.distance > 3860){
+    if(player.distance > 4300){
       gameState = 2;
+      player.rank = player.rank + 1;
+      Player.updatePlayerRank(player.rank);
     }
    
     drawSprites();
@@ -100,5 +103,6 @@ class Game {
 
   end(){
     console.log("Game Ended");
+    console.log(player.rank)
   }
 }
